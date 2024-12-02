@@ -17,31 +17,26 @@ const TaskList = () => {
     <div>
       <ul>
         {tasks.map((task) => (
-          <li
-            key={task.id}
-            style={{ margin: "10px 0", display: "flex", alignItems: "center" }}
-          >
+          <li key={task.id}>
             <input
               type="checkbox"
               checked={task.completed}
               onChange={() => dispatch(toggleTask(task.id))}
-              style={{ marginRight: "10px" }}
             />
             <span
               style={{
                 textDecoration: task.completed ? "line-through" : "none",
-                flex: 1,
               }}
             >
               {task.text}
             </span>
-            <button
-              onClick={() => handleEditTask(task.id)}
-              style={{ marginRight: "10px" }}
-            >
+            <button onClick={() => handleEditTask(task.id)} className="edit">
               Edit
             </button>
-            <button onClick={() => dispatch(deleteTask(task.id))}>
+            <button
+              onClick={() => dispatch(deleteTask(task.id))}
+              className="delete"
+            >
               Delete
             </button>
           </li>
