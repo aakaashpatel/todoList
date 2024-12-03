@@ -1,25 +1,82 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+
+// Load tasks from localStorage
+const loadFromLocalStorage = () => {
+  const saved = localStorage.getItem("tasks");
+  return saved ? JSON.parse(saved) : [];
+};
+
+// Save tasks to localStorage
+const saveToLocalStorage = (tasks) => {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+};
 
 let nextId = 1;
 
+// Async action to fetch weather
+export const fetchWeather = createAsyncThunk(
+  "tasks/fetchWeather",
+  async (taskId, { getState }) => {
+    const state = getState();
+    const task = state.tasks.items.find((t) => t.id === taskId);
+
+    if (!task || task.type !== "outdoor") {
+      return { taskId, weather: null };
+    }
+
+    try {
+      const response = await axios.get(
+        `https://api.openweathermap.org/data/2.5/weather?q=${
+          task.location || "Delhi"
+        }&units=metric&appid=fd349e68f481e6bc427a352a932423a9`
+      );
+
+      return {
+        taskId,
+        weather: {
+          temp: response.data.main.temp,
+          description: response.data.weather[0].description,
+        },
+      };
+    } catch (error) {
+      console.error("Error fetching weather data:", error);
+      return { taskId, weather: null };
+    }
+  }
+);
+
 const taskSlice = createSlice({
   name: "tasks",
-  initialState: [],
+  initialState: { items: loadFromLocalStorage(), weather: {} },
   reducers: {
     addTask: (state, action) => {
-      state.push({ id: nextId++, text: action.payload, completed: false });
+      state.items.push({
+        id: nextId++,
+        ...action.payload,
+        completed: false,
+      });
+      saveToLocalStorage(state.items); // Save tasks after addition
     },
     deleteTask: (state, action) => {
-      return state.filter((task) => task.id !== action.payload);
+      state.items = state.items.filter((task) => task.id !== action.payload);
+      saveToLocalStorage(state.items); // Save tasks after deletion
     },
     toggleTask: (state, action) => {
-      const task = state.find((task) => task.id === action.payload);
+      const task = state.items.find((task) => task.id === action.payload);
       if (task) task.completed = !task.completed;
+      saveToLocalStorage(state.items); // Save tasks after toggle
     },
     editTask: (state, action) => {
-      const task = state.find((task) => task.id === action.payload.id);
+      const task = state.items.find((task) => task.id === action.payload.id);
       if (task) task.text = action.payload.text;
+      saveToLocalStorage(state.items); // Save tasks after edit
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchWeather.fulfilled, (state, action) => {
+      state.weather[action.payload.taskId] = action.payload.weather;
+    });
   },
 });
 
