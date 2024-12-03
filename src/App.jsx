@@ -1,13 +1,23 @@
+import React from "react";
+import { useSelector } from "react-redux";
+import Login from "./components/Login";
 import TaskInput from "./components/TaskInput";
 import TaskList from "./components/TaskList";
-import "./App.css";
+import './App.css'
 
 const App = () => {
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+
   return (
-    <div style={{ padding: "20px", maxWidth: "600px", margin: "auto" }}>
-      <h1 className="text-2xl">To-Do List with Weather</h1>
-      <TaskInput />
-      <TaskList />
+    <div style={{ padding: "20px" }}>
+      {isLoggedIn ? (
+        <>
+          <TaskInput />
+          <TaskList />
+        </>
+      ) : (
+        <Login />
+      )}
     </div>
   );
 };

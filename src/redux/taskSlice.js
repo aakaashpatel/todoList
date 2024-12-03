@@ -12,7 +12,9 @@ const saveToLocalStorage = (tasks) => {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
-let nextId = 1;
+let nextId = loadFromLocalStorage().length
+  ? Math.max(...loadFromLocalStorage().map((t) => t.id)) + 1
+  : 1;
 
 // Async action to fetch weather
 export const fetchWeather = createAsyncThunk(
@@ -56,21 +58,21 @@ const taskSlice = createSlice({
         ...action.payload,
         completed: false,
       });
-      saveToLocalStorage(state.items); // Save tasks after addition
+      saveToLocalStorage(state.items);
     },
     deleteTask: (state, action) => {
       state.items = state.items.filter((task) => task.id !== action.payload);
-      saveToLocalStorage(state.items); // Save tasks after deletion
+      saveToLocalStorage(state.items);
     },
     toggleTask: (state, action) => {
       const task = state.items.find((task) => task.id === action.payload);
       if (task) task.completed = !task.completed;
-      saveToLocalStorage(state.items); // Save tasks after toggle
+      saveToLocalStorage(state.items);
     },
     editTask: (state, action) => {
       const task = state.items.find((task) => task.id === action.payload.id);
       if (task) task.text = action.payload.text;
-      saveToLocalStorage(state.items); // Save tasks after edit
+      saveToLocalStorage(state.items);
     },
   },
   extraReducers: (builder) => {
