@@ -27,31 +27,29 @@ const TaskInput = () => {
   };
 
   return (
-    <div style={{ margin: "20px 0" }}>
+    <div className="my-5 p-4 bg-gray-50 shadow-md rounded-md">
+      <h2 className="text-lg font-bold mb-4 bg-gray-50">
+        Create Your ToDo with Weather
+      </h2>
       <input
         type="text"
         value={task}
         onChange={(e) => setTask(e.target.value)}
         placeholder="Task description"
-        style={{ padding: "10px", width: "70%" }}
+        className="w-full p-3 mb-4 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
       />
-      <div className="flex">
+      <div className="flex flex-col gap-4 md:flex-row">
         <input
           type="text"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
           placeholder="Location (optional)"
-          style={{
-            padding: "10px",
-            width: "70%",
-            marginTop: "10px",
-            display: "block",
-          }}
+          className="w-full md:w-1/2 p-3 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
         />
         <select
           value={type}
           onChange={(e) => setType(e.target.value)}
-          style={{ padding: "10px", marginTop: "10px", display: "block" }}
+          className="w-full md:w-1/2 p-3 border rounded-md bg-white focus:outline-none focus:ring focus:ring-blue-300"
         >
           <option value="general">General</option>
           <option value="outdoor">Outdoor</option>
@@ -60,7 +58,7 @@ const TaskInput = () => {
       <select
         value={priority}
         onChange={(e) => setPriority(e.target.value)}
-        style={{ padding: "10px", marginTop: "10px", display: "block" }}
+        className="w-full p-3 mt-4 border rounded-md bg-white focus:outline-none focus:ring focus:ring-blue-300"
       >
         <option value="High">High</option>
         <option value="Medium">Medium</option>
@@ -68,12 +66,7 @@ const TaskInput = () => {
       </select>
       <button
         onClick={handleAddTask}
-        style={{
-          padding: "10px",
-          marginTop: "10px",
-          backgroundColor: "black",
-          color: "white",
-        }}
+        className="w-full mt-4 bg-black text-white py-3 rounded-md hover:bg-gray-800 focus:outline-none focus:ring focus:ring-blue-300"
       >
         Add Task
       </button>

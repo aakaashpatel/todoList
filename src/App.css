@@ -5,23 +5,23 @@
   text-align: center;
 }
 
-*{
+* {
   color: rgba(102, 96, 96, 0.87);
   background-color: #eeeef3;
 }
 
 input.task-input {
-  border: 2px solid rgb(179, 177, 177); 
+  border: 2px solid rgb(179, 177, 177);
   padding: 10px;
   width: 70%;
   font-size: 16px;
-  transition: border-color 0.3s ease; 
+  transition: border-color 0.3s ease;
   background-color: transparent;
 }
- 
+
 input.task-input:focus {
-  outline: none; 
-  border-color: black; 
+  outline: none;
+  border-color: black;
 }
 
 ul {
@@ -34,13 +34,13 @@ li {
   background-color: rgb(224, 219, 219);
   color: black;
   padding: 10px;
-  gap: 10px; 
+  gap: 10px;
 }
 
 li span {
   flex: 1;
-  text-decoration: none; 
-} 
+  text-decoration: none;
+}
 
 button {
   padding: 6px 12px;
@@ -52,4 +52,3 @@ button {
   font-size: 14px;
   transition: background-color 0.3s;
 }
-

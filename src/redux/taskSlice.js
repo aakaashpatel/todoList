@@ -7,7 +7,7 @@ const loadFromLocalStorage = () => {
   return saved ? JSON.parse(saved) : [];
 };
 
-// Save tasks to localStorage
+// localStorage
 const saveToLocalStorage = (tasks) => {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
